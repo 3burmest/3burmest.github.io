@@ -60,7 +60,7 @@ function fetchEbayStore(){
    var yql="select *" + 
            " from html" +
            " where url='http://www.hsc-regatta.org/ergebnis/ekang.html'";
-   yql="http://query.yahooapis.com/v1/public/yql?q=" +
+   yql="https://query.yahooapis.com/v1/public/yql?q=" +
        encodeURIComponent(yql) +
        "&format=json" +
        "&callback=cbfunc";

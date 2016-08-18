@@ -6,8 +6,9 @@ function getJSON(url) {  //quick and dirty, just meant for quick proof of concep
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-function cbfunc(json){
+function cbfunc(json, rm = false){
     if(json.query.count) {
+        jso = json;
         var data = json.query.results.body.div.table.tbody.tr[1].td.div.p[3].table.tbody.tr;
         var table = document.createElement('table');
         table.setAttribute('id', 'liste');
@@ -27,23 +28,25 @@ function cbfunc(json){
             '<th>Ges.Punkte</th>' +
             '</tr></thead>';
         table.innerHTML = tablehead;
-        var i=2, l=data.length-4, htm='<tbody>';
+        var i=2, l=data.length-5, htm='<tbody>';
         for(;i<l;i++){
             try{
-                htm += "<tr>";
-                var entry = data[i];
-                var il = entry.td.length;
-                for(var j = 0; j < il; j++) {
-                    var d = entry.td[j];
-                    if(typeof d === 'string') {
-                        htm += "<td>" + d + "</td>";
-                    } else {
-                        htm += "<td>" + d.content + "</td>";
+                if (!rm || (data[i].td[7].content !== "0")) {
+                    htm += "<tr>";
+                    var entry = data[i];
+                    var il = entry.td.length;
+                    for(var j = 0; j < il; j++) {
+                        var d = entry.td[j];
+                        if(typeof d === 'string') {
+                            htm += "<td>" + d + "</td>";
+                        } else {
+                            htm += "<td>" + d.content + "</td>";
+                        }
                     }
+                    htm += "</tr>";
                 }
-                htm += "</tr>";
             } catch (err) {
-                alert(JSON.stringify(entry));
+                alert(err.message + "\n\n" + i + "\n\n" + JSON.stringify(data));
             }
         }
         htm += "</tbody>";
@@ -65,4 +68,21 @@ function fetchEbayStore(){
        "&format=json" +
        "&callback=cbfunc";
    getJSON(yql);
+}
+
+function empties() {
+    document.body.removeChild(document.getElementById('liste'));
+    try{
+        if(!empty) {
+            empty = true;
+            document.getElementById('emptier').innerHTML = "Nicht-Teilnehmer hinzufügen";
+        } else {
+            empty = false;
+            document.getElementById('emptier').innerHTML = "Nicht-teilnehmer entfernen";
+        }
+    } catch (err) {
+        empty = true;
+        document.getElementById('emptier').innerHTML = "Nicht-Teilnehmer hinzufügen";
+    }
+    cbfunc(jso, empty);
 }

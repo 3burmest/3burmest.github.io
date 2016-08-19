@@ -12,7 +12,7 @@ function fun(json, rm){
         var data = json.query.results.body.div.table.tbody.tr[1].td.div.p[3].table.tbody.tr;
         var table = document.createElement('table');
         table.setAttribute('id', 'liste');
-        table.classList += ' tablesorter';
+        table.classList ? table.classList.add('tablesorter') : table.className += ' tablesorter';
         var tablehead = '<thead><tr>' + 
             '<th>Ges.Platz</th>' + 
             '<th>Lkg</th>' +

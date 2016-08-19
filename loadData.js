@@ -6,7 +6,7 @@ function getJSON(url) {  //quick and dirty, just meant for quick proof of concep
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-function cbfunc(json, rm = false){
+function fun(json, rm = false){
     if(json.query.count) {
         jso = json;
         var data = json.query.results.body.div.table.tbody.tr[1].td.div.p[3].table.tbody.tr;
@@ -59,6 +59,14 @@ function cbfunc(json, rm = false){
     }
 }
 
+function cbfunc(json) {
+    try {
+        fun(json, empty);
+    } catch (err) {
+        fun(json, false);
+    }
+}
+
 function fetchEbayStore(){
    var yql="select *" + 
            " from html" +
@@ -84,5 +92,5 @@ function empties() {
         empty = true;
         document.getElementById('emptier').innerHTML = "Nicht-Teilnehmer hinzufügen";
     }
-    cbfunc(jso, empty);
+    fun(jso, empty);
 }

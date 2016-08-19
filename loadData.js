@@ -6,7 +6,7 @@ function getJSON(url) {  //quick and dirty, just meant for quick proof of concep
   document.getElementsByTagName('head')[0].appendChild(script);
 }
 
-function fun(json, rm = false){
+function fun(json, rm){
     if(json.query.count) {
         jso = json;
         var data = json.query.results.body.div.table.tbody.tr[1].td.div.p[3].table.tbody.tr;

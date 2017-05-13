@@ -9,7 +9,7 @@ function getJSON(url) {  //quick and dirty, just meant for quick proof of concep
 function fun(json, rm){
     if(json.query.count) {
         jso = json;
-        var data = json.query.results.body.div.table.tbody.tr[1].td.div.p[3].table.tbody.tr;
+        var data = json.query.results.body.div.table.tbody.tr.td.div.p[4].table.tbody.tr;
         var table = document.createElement('table');
         table.setAttribute('id', 'liste');
         table.classList ? table.classList.add('tablesorter') : table.className += ' tablesorter';
@@ -53,13 +53,14 @@ function fun(json, rm){
         table.innerHTML += htm;
         document.getElementsByTagName('body')[0].appendChild(table);
         //document.getElementsByTagName('body')[0].innerHTML = '"' + htm + '"';
-        $("#liste").tablesorter(); 
+        $("#liste").tablesorter( {sortList: [[5,0], [7, 0]]} ); 
     } else {
         alert('Error: nothing found'); return false;
     }
 }
 
 function cbfunc(json) {
+    console.log(json);
     try {
         fun(json, empty);
     } catch (err) {
@@ -70,7 +71,7 @@ function cbfunc(json) {
 function fetchEbayStore(){
    var yql="select *" + 
            " from html" +
-           " where url='http://www.hsc-regatta.org/ergebnis/ekang.html'";
+           " where url='https://www.hsc-regatta.org/ergebnis/ekang.html'";
    yql="https://query.yahooapis.com/v1/public/yql?q=" +
        encodeURIComponent(yql) +
        "&format=json" +
